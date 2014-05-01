@@ -1,6 +1,7 @@
 package collabcache
 
 import (
+	"syscall"
 	"time"
 )
 
@@ -42,6 +43,13 @@ func NewCollabCache(quitChannel chan bool) *CollabCache {
 // Func NewCacheItem Creates a new CacheItem
 func NewCacheItem() *CacheItem {
 	return &CacheItem{}
+}
+
+// Func CurrentTimeInMillis Returns the current system time in milliseconds
+func CurrentTimeInMillis() int64 {
+	tv := new(syscall.Timeval)
+	syscall.Gettimeofday(tv)
+	return (int64(tv.Sec)*1e3 + int64(tv.Usec)/1e3)
 }
 
 // Gets or Publishes value using generatorFunc if not available
